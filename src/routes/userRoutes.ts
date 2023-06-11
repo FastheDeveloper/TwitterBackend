@@ -31,6 +31,7 @@ router.post('/',async (req,res)=>{
 //**list users**
 router.get('/',async(req,res)=>{
     const allUser=await Prisma.user.findMany(); //prisama .user is table name .findmany is query
+    if(!allUser) res.status(400).json({error:"users not found"} )
     res.json(allUser)
 }); //read
 
@@ -40,6 +41,7 @@ router.get('/:id', async (req,res)=>{
     const user=await Prisma.user.findUnique({ 
         where:{id:Number(id)}
     })
+    if(!user) res.status(400).json({error:"user not found"} )
     res.json(user)
 }); //read
 

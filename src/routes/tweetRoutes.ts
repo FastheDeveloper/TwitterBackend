@@ -26,7 +26,23 @@ router.post('/',async (req,res)=>{
 
 //**list tweet**
 router.get('/',async (req,res)=>{
-    const allTweet=await Prisma.tweet.findMany(); //prisama .user is table name .findmany is query
+    const allTweet=await Prisma.tweet.findMany({
+        include:{user:{select:{id:true,name:true,username:true,image:true}}},
+        // select:{
+        //     id:true,
+        //     content:true,
+        //     user:{
+        //        select:{
+        //              name:true,
+        //                 username:true,
+        //                 id:true,
+        //                 image:true,
+        //             }
+
+        //     }
+        // }
+    }); //prisama .user is table name .findmany is query
+    
     if(!allTweet) res.status(400).json({error:"tweets not found"} )
     res.json(allTweet)
 }); //read
